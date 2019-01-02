@@ -1,0 +1,21 @@
+import requests
+import pprint
+import time
+from IPython.core.display import Image, display
+from IPython.display import clear_output
+pp = pprint.PrettyPrinter(indent=4)
+# https://api.nasa.gov/api.html#apod
+# This is a parameter 
+api_key = "oMrH77hL0IcYFpEAYw6HpzxULiro2VX2jGy9CIMV"
+
+# We are doing a get request
+for mon in range(1,13):
+    for days in range(1,31):
+        data = "2016-{}-{}".format(mon, days)
+        r = requests.get(f'https://api.nasa.gov/planetary/apod?date={data}&api_key={api_key}')
+        print(r.status_code)
+        pp.pprint(r.json())
+        url = r.json()["url"]
+        clear_output()
+        display(Image(url=url))
+        time.sleep(5)
